@@ -1,0 +1,71 @@
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/Content/autoComplete.css" rel="stylesheet" />
+<div ng-app="app">
+    <div ng-controller="MyCtrl">
+        <div class="main">
+            <h2>Search for new released movies:</h2>
+            <autocomplete ng-model="result" click-activation="true" data="autoData" on-type="doSomething" on-select="doSomethingElse"></autocomplete>
+            
+            <br>
+        </div>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+    var app = angular.module('app', ['autocomplete']);
+
+    // the service that retrieves some movie title from an url
+    app.factory('AutoCompleteFactory', function ($http, $q, $timeout) {
+        var factory = new Object();
+
+        factory.getData = function (i) {
+            var values = $q.defer();
+            var listOfValues;
+            var option = [];
+            $http.post('/DDL/CreateDropDown', { modelName: "Role" }).
+                  success(function (data, status, headers, config) {
+                      for (var i = 0; i < data.length; i++) {
+                          option.push(data[i].label);
+                      }
+                     }).
+                  error(function (data, status, headers, config) {
+                  });
+
+            if (i && i.indexOf('T') != -1)
+                listOfValues = option;
+            else
+                listOfValues = option;
+
+            $timeout(function () {
+                values.resolve(listOfValues);
+            }, 1000);
+            return values.promise
+        }
+
+        return factory;
+    });
+
+    app.controller('MyCtrl', function ($scope, AutoCompleteFactory) {
+        $scope.autoData = AutoCompleteFactory.getData("...");
+        $scope.autoData.then(function (data) {
+            $scope.autoData = data;
+        });
+
+        $scope.getData = function () {
+            return $scope.autoData;
+        }
+
+        $scope.doSomething = function (typedthings) {
+            $scope.newmovies = AutoCompleteFactory.getData(typedthings);
+            $scope.newmovies.then(function (data) {
+                $scope.autoData = data;
+            });
+        }
+    });
+</script>
