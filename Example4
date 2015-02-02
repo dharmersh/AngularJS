@@ -1,0 +1,75 @@
+<html>
+<head>
+<link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css"/>
+</head>
+<body>
+<div data-ng-app="app">
+<!-- data controller using  Dot (.) property -->
+<!-- <input type="text" ng-model="data.message"/>
+		<span ng-bind="data.message"></span>
+		<div class="{{data.message}}">
+			
+		</div> -->
+	<div ng-controller="firstController">
+		<input type="text" ng-model="data.message"/>
+		
+		<span ng-bind="data.message|reverse"></span>
+		<div class="{{data.message}}">
+			Hi Dharmesh
+		</div>
+	</div>
+	<div ng-controller="SecondController">
+		<input type="text" ng-model="data.message"/>
+		<span ng-bind="reversedMessage(data.message)"></span>
+		<div class="{{data.message}}">
+		Wel Come to Doyen
+		</div>
+	</div>
+
+	
+</div>
+
+<!-- sharing data between controller to controller -->
+<!--  -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.10/angular.min.js"></script>
+<script type="text/javascript">
+var app= angular.module("app",[]);
+
+	<!-- making filter costume filter -->
+	app.filter("reverse",function(){
+		return function(text){ 
+			return text.split("").reverse().join("");
+		}
+	});
+	
+
+//for sharing data between 2 controller we need a service
+// for the service we need to create factory
+app.factory("SampleFactory",function(){
+	return {message:'I am data from Sample Service'};
+})
+//controller
+app.controller("firstController",function($scope,SampleFactory){
+	$scope.data=SampleFactory;
+});
+app.controller("SecondController",function($scope,SampleFactory){
+	$scope.data=SampleFactory;
+	$scope.reversedMessage=function(message){
+	return message.split("").reverse().join("");
+	}
+});
+//testing in angular for testing we need 
+//karma-jasmine framework
+<!-- describe('filter',function(){
+<!-- 	beforeEach(module('app'));
+	
+	<!-- describe('reverse',function(){
+		<!-- it('shoud reverse the string',inject(function(reverseFilter){ -->
+		<!-- expect(reverseFilter('ABCD')).toEqual('DCBA'); -->
+		<!-- })); --> -->
+	<!-- }) --> -->
+<!-- }); --> -->
+
+</script>
+</body>
+</html>
