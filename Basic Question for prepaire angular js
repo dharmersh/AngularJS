@@ -1,0 +1,171 @@
+Q1. Count me some benefit of using AngularJS in a project?
+AngularJS helps you to build rich client side applications in a modular fashion with less code and with more flexibility.
+It consists of a wide range of toolset(directive,DI,filters,two way data binding, no fancy classes to extend etc) 
+that helps developer build well structured application
+AngularJS directives adds functionality to your html markup and allow you to create powerful dynamic templates. 
+You can also create your own custom directives, and reusable components which you can plug in and play 
+according to different requirement.
+
+It also provides nice feature known as two-way data binding, 
+that connects your HTML (views) to your JavaScript objects (models) seamlessly. 
+In simple terms, this means that any update on your model will be immediately reflected in your
+view without the need for any DOM manipulation or event handling. Here you can save lots of LOC which 
+is not the case with other framework like Jquery,ExtJs, backbone etc.
+
+Angular provides services on top of XHR that simplify your code and allow you to 
+abstract API calls into reusable services. With that, you can move your model and business logic to the 
+front-end and build back-end agnostic web apps.
+
+There are many more benefits which comes with feature like filters, dependency injection, 
+scope,testing capability,browser history etc etc.
+It is true that it doesn’t comes with full featured UI components like ExtJS but it provides a lot
+of flexibility to developer when it comes with UI component development.
+
+Q2. What do you mean by ng-app in Angular JS?
+The ng-app attribute tells Angular that which parts of the page it should manage.
+For example:
+
+<html ng-app>
+Since here we have place it on html element, we are telling angular that we want it to manage the whole page.
+You can place it on other element as well, most famously on div element.
+Let’s say you’ve got an existing app where some other technology expects to manage the DOM, such as Java or Rails,
+you can tell Angular to manage only a part of the page by placing it on some element like a within the page.
+
+<html>
+…
+<div ng-app>
+…
+</div>
+…
+</html>
+
+Q3. What is the difference between {{message}} and <p ng-bind=”greeting”>
+No difference actually.
+You can display and updated text anywhere in your UI using both methods…
+Both will result similar output.
+
+Note: There might be a chance that your user will see the nonrendered template before Angular has a
+chance to replace the curly bracket with your data. 
+And if you use ng-bind attribute, then you will see nothing until the data has loaded.
+
+Q4. Is it necessary to use Jquery library if you are developing a web app using AngularJS?
+No, Jquery is not compulsory to use when working with Angular JS.
+You can develop your web app without Jquery as AngularJs is capable of supporting all requirement.
+But at the same time no is stopping you to use Jquery or any other javascript framework along with AngularJs.
+
+Q5. Explain $scope in AngularJs?
+It is used to expose the domain model to a view.
+Scopes serve as the glue between the controller and the view.
+
+For example, one could create a getter function for the name variable, as given in the following code:
+var exmpCntl = function ($scope) {
+$scope.getUserName = function() {
+return $scope.userName;
+};
+}
+And then use it in a template as given in the following code:
+
+<div>Hello, {{getName()}}!</div>
+Remember,
+
+It is controller who initialize the scope objects.
+$scope is an instance of the Scope class
+ng-controller directive creates new scope using Scope.$new() method call.
+New scopes are usually brought to life and destroyed by the scope-creating directives.
+It is also possible to manually create and destroy scopes by calling the $new() and $destroy() methods.
+
+Q6. what do you mean by Controller in AngularJS?
+Controllers in AngularJS are nothing but regular JavaScript functions. You do not need to extend any framework
+specific core classes.
+Their prime responsibility is to initialize scope objects or initial model values without cluttering HTML templates
+with code.
+
+Q7. What is $rootScope?
+$rootScope is a scope and it is a parent of all other scopes.
+The $rootScope instance gets created when a new application is bootstrapped
+
+Q8. Explain ng-repeat directive?
+This directive allows you to iterate over a collection.
+For Example
+
+
+var employeeController = function ($scope) {
+$scope.employees = [
+{name: 'John Smith', age: 23.1},
+{name: 'Leonard V', age: 25},
+{name: 'Tom C', age: 35},
+];
+};
+ 
+<body ng-app>
+<table ng-controller="employeeController">
+<tr>
+<td>Name: </td><td>Age: </td>
+</tr>
+<tr ng-repeat="emp in employees">
+<td>{{emp.name}}</td> <td>{{emp.age}}</td>
+</tr>
+</table>
+</body>
+Above code is making use of ng-repeat directive and as a result it will create element as well while
+iterating over collection in scope object.
+Few important points about ng-repeat:
+
+$index returns index of the current element
+$first, $middle, and $last : These are booleans that tells you if you’re on the first element, somewhere in the
+middle, or the last element of the collection
+
+Q9. What do you say about cross browser compatibility in AngularJS?
+AngularJS depends on jqLite/jQuery that provides cross-browser compatibility.
+While AnugularJS (1.3 and above) has dropped IE8 support. and it supports IE8 and higher
+chorme, safari, FireFox ,iOS, Android etc.
+
+Q10. How will you implement charts in AngularJS?
+AngularJs does not provide support for creating charts like ExtJS etc.
+D3 charts is an awesome option for creating charts in your application.
+
+Q11. Explain in brief about ‘ng-include’ directive in angularJS?
+ng-include directive is used to fetch, compile and inlcude an external HTML fragment/snippet/template
+into your current application.
+
+Example code:
+<div ng-include="/myhtmlTemplate.html"
+ ng-controller="MyController" >
+</div>
+Above code will embedd html code from myTemplateName.html in given div.
+This directive helps you to seperate out your content.
+
+Q11. Explaing about ‘ng-if’ directive in angularJs?
+ng-if directive is used to include or remove HTML element from DOM.
+It will either completely remove or recreate an elemnt in the DOM based on an expression.
+
+<div ng-controller="MyController" >
+    <div ng-if="myData.show">Hi! there</div>
+</div>
+
+If an expression (myData.show) assigned to ng-if evaluates to a false value, then the element is
+removed from DOM, otherwise a clone of the element is reinserted into the DOM.
+
+Remember when an element is removed from the DOM, its associated scope is also destroyed & when it comes 
+back to DOM, a new scope is created and inherits from its parent scope.
+
+Q12. What is the difference between ng-include & ng-show/ng-hide directive?
+Ng-if removes the HTML element completely from the DOM, whereas the ng-show or ng-hide just applies the CSS 
+property display: none; to the elements.
+
+Q13. Do you know about Interpolation directive?
+Interpolation directive {{ expression }} is one of the most basic/fundamental directive in angularJS. 
+This directive inserts the result of an expression into the HTML template.
+
+
+For example:
+div ng-controller="MyController" >
+    <span>{{myData.value}}</span>
+</div>
+This directive instructs AngularJS to insert the data value myData.value at the given place.
+
+Q14. Do you know about ng-cloak directive?
+This directive is an alternative to ng-bind directive. It prevents a flash of unrendered content.
+
+The ng-cloak directive hides all the element on a page until the page has been resolved by the route.
+
