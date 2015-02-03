@@ -1,0 +1,28 @@
+<h3>Feature Of Angular JS</h3>
+<script src="~/Scripts/angular.js"></script>
+<div data-ng-app="app">
+    <div data-ng-controller="main">
+        <div data-ng-repeat='(index, name) in choices'>
+            {{name}}
+           <input type='checkbox' data-ng-model='values[index]' data-ng-true-value='"{{name}}"'
+           data-ng-change='updateValues()' />
+        </div>
+
+        <h4>Here are the values.</h4>
+        <p data-ng-repeat='name in values'>{{name}}</p>
+    </div>
+</div>
+<script>
+    var app = angular.module('app', []);
+    app.controller('main', function ($scope) {
+        $scope.values = [];
+        $scope.choices = ['Tom', 'Bill', 'Bob', 'Ralph', 'Joe', 'Sue'];
+        $scope.updateValues = function () {
+            $scope.values = $scope.values.filter(function (v) {
+                return !!v;
+            });
+        }
+        $scope.$watch('values', $scope.updateValues, true);
+    });
+
+</script>
