@@ -1,0 +1,50 @@
+<h3>Feature Of Angular JS</h3>
+<script src="~/Scripts/angular.js"></script>
+
+
+<div data-ng-app="app">
+    <div data-ng-controller="appController">
+        <span data-ng-repeat="item in choices">
+            <label class="checkbox">
+                <input type="checkbox" name="{{item.url}}" id="{{item.name}}" ng-model="item.checked" ng-change="updateValues()" />
+                {{item.label}}
+            </label>
+        </span>
+        <br />
+        <span data-ng-repeat='id in MyselectedValue'>{{id.label}} </span>
+        <br />
+
+    </div>
+</div>
+<script>
+    var app = angular.module("app", []);
+    app.controller("appController", function ($scope, $filter) {
+        $scope.choices = [{
+            "id": 1,
+            "value": "1",
+            "label": "Good"
+        },
+        {
+            "id": 2,
+            "value": "2",
+            "label": "Ok"
+        },
+        {
+            "id": 3,
+            "value": "3",
+            "label": "Bad"
+        }];
+
+        $scope.MyselectedValue = [];
+        $scope.updateValues = function () {
+            $scope.MyselectedValue = $filter('filter')($scope.choices, { checked: true })
+            debugger;
+        }
+        $scope.$watch("MyselectedValue", function (newValue, oldValues) {
+            $scope.MyselectedValue = newValue;
+            debugger;
+        })
+
+    });
+
+</script>
